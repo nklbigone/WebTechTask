@@ -16,13 +16,30 @@
       <input type="submit" name="submit" >
     </form>
 
-    <% result = connection.exec("select * from crops where quality='f' and give_for !='自家消費';
+    <% result = connection.exec("select * from crops where quality='f';
+    ;") %>
+    <% qualityfalse = [] %>
+
+    <% result.each do |record| %>
+      <%  qualityfalse << "Size of bitter gourd : #{record ["wainght"]} Date : #{record ["date"]}  Sold to : #{record ["give_for"]} Length : #{record ["length"]} Quality : #{record ["quality"]} " %>
+    <% end %>
+
+    <% result = connection.exec("select * from crops where give_for !='自家消費';
     ;") %>
     <% date = [] %>
 
     <% result.each do |record| %>
       <%  date << "Size of bitter gourd : #{record ["wainght"]} Date : #{record ["date"]}  Sold to : #{record ["give_for"]} Length : #{record ["length"]} Quality : #{record ["quality"]} " %>
     <% end %>
+
+    <form action="goya.cgi" method="POST">
+       Press the button below to jump to the size of the bitter gourd and the information page of the buyer<br><br>
+       <!-- Substitute the data you want to send for value -->
+       <!-- Make name = "goya" a mark of information -->
+      <input type="text" name="goya" value="<%= qualityfalse.join(' ') %>">
+      
+      <input type="submit" name="submit" >
+    </form>
 
     <form action="goya.cgi" method="POST">
        Press the button below to jump to the size of the bitter gourd and the information page of the buyer<br><br>
